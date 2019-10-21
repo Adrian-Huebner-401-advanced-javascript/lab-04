@@ -46,10 +46,29 @@ describe('Categories Model', () => {
   });
 
   it('can delete() a catergory', () => {
-    
+    let obj = { name: 'Testing Category' };
+    categories.create(obj)
+      .then(results => {
+        console.log(results.id);
+        categories.delete()
+          .then(() => {
+            categories.get(results.id)
+              .then(results => {
+                expect(results.length).toBe(0);
+              });
+          });
+      });
   });
 
   it('can update() a catergory', () => {
-
+    let obj = { name: 'Testing Category' };
+    categories.create(obj)
+      .then(results => {
+        categories.get(results)
+          .then(results => {
+            categories.update({ name: 'New Category' });
+            expect(results).toBe({ name: 'New Category' });
+          });
+      });
   });
 });
